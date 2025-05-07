@@ -1,0 +1,195 @@
+uint32_t LSL_immed5(uint16_t i) {
+  return 0xe1b00000 | ((i & 0x0007) << 12) | ((i & 0x07c0) << 1) | ((i & 0x0038) >> 3);
+}
+
+uint32_t LSR_immed5(uint16_t i) {
+  return 0xe1b00020 | ((i & 0x0007) << 12) | ((i & 0x07c0) << 1) | ((i & 0x0038) >> 3);
+}
+
+uint32_t ASR_immed5(uint16_t i) {
+  return 0xe1b00040 | ((i & 0x0007) << 12) | ((i & 0x07c0) << 1) | ((i & 0x0038) >> 3);
+}
+
+uint32_t ADD_dnm(uint16_t i) {
+  return 0xe0900000 | ((i & 0x0038) << 13) | ((i & 0x0007) << 12) | ((i & 0x01c0) >> 6);
+}
+
+uint32_t SUB_dnm(uint16_t i) {
+  return 0xe0500000 | ((i & 0x0038) << 13) | ((i & 0x0007) << 12) | ((i & 0x01c0) >> 6);
+}
+
+uint32_t ADD_immed3(uint16_t i) {
+  return 0xe2900000 | ((i & 0x0038) << 13) | ((i & 0x0007) << 12) | ((i & 0x01c0) >> 6);
+}
+
+uint32_t SUB_immed3(uint16_t i) {
+  return 0xe2500000 | ((i & 0x0038) << 13) | ((i & 0x0007) << 12) | ((i & 0x01c0) >> 6);
+}
+
+uint32_t MOV_immed8(uint16_t i) {
+  return 0xe3b00000 | ((i & 0x0700) << 4) | (i & 0x00ff);
+}
+
+uint32_t CMP_immed8(uint16_t i) {
+  return 0xe3500000 | ((i & 0x0700) << 8) | (i & 0x00ff);
+}
+
+uint32_t ADD_immed8(uint16_t i) {
+  return 0xe2900000 | ((i & 0x0700) << 8) | ((i & 0x0700) << 4) | (i & 0x00ff);
+}
+
+uint32_t SUB_immed8(uint16_t i) {
+  return 0xe2500000 | ((i & 0x0700) << 8) | ((i & 0x0700) << 4) | (i & 0x00ff);
+}
+
+uint32_t ADD_hi(uint16_t i) {
+  //todo: possibly undefined when bits 6-7 of Thumb opcode are clear?
+  uint32_t rm = (i & 0x0078) >> 3;
+  uint32_t rd = ((i & 0x0080) >> 4) | (i & 0x0007);
+  return 0xe0800000 | (rd << 16) | (rd << 12) | rm;
+}
+
+uint32_t CMP_hi(uint16_t i) {
+  //todo: possibly undefined when bits 6-7 of Thumb opcode are clear?
+  uint32_t rm = (i & 0x0078) >> 3;
+  uint32_t rd = ((i & 0x0080) >> 4) | (i & 0x0007);
+  return 0xe1500000 | (rd << 16) | rm;
+}
+
+uint32_t MOV_hi(uint16_t i) {
+  //todo: possibly undefined when bits 6-7 of Thumb opcode are clear?
+  uint32_t rm = (i & 0x0078) >> 3;
+  uint32_t rd = ((i & 0x0080) >> 4) | (i & 0x0007);
+  return 0xe1a00000 | (rd << 12) | rm;
+}
+
+uint32_t BX(uint16_t i) {
+  //bit 7 of Thumb opcode is ignored on ARM7TDMI, despite manual stating it should be zero
+  //todo: are bits 0-2 significant? (listed as SBZ)
+  return 0xe12fff10 | ((i & 0x0078) >> 3);
+}
+
+uint32_t LDR_pc_immed8(uint16_t i) {
+  return 0xe59f0000 | ((i & 0x0700) << 4) | ((i & 0x00ff) << 2);
+}
+
+uint32_t STR_dnm(uint16_t i) {
+  return 0xe7800000 | ((i & 0x0038) << 13) | ((i & 0x0007) << 12) | ((i & 0x01c0) >> 6);
+}
+
+uint32_t STRH_dnm(uint16_t i) {
+  return 0xe18000b0 | ((i & 0x0038) << 13) | ((i & 0x0007) << 12) | ((i & 0x01c0) >> 6);
+}
+
+uint32_t STRB_dnm(uint16_t i) {
+  return 0xe7c00000 | ((i & 0x0038) << 13) | ((i & 0x0007) << 12) | ((i & 0x01c0) >> 6);
+}
+
+uint32_t LDRSB_dnm(uint16_t i) {
+  return 0xe19000d0 | ((i & 0x0038) << 13) | ((i & 0x0007) << 12) | ((i & 0x01c0) >> 6);
+}
+
+uint32_t LDR_dnm(uint16_t i) {
+  return 0xe7900000 | ((i & 0x0038) << 13) | ((i & 0x0007) << 12) | ((i & 0x01c0) >> 6);
+}
+
+uint32_t LDRH_dnm(uint16_t i) {
+  return 0xe19000b0 | ((i & 0x0038) << 13) | ((i & 0x0007) << 12) | ((i & 0x01c0) >> 6);
+}
+
+uint32_t LDRB_dnm(uint16_t i) {
+  return 0xe7d00000 | ((i & 0x0038) << 13) | ((i & 0x0007) << 12) | ((i & 0x01c0) >> 6);
+}
+
+uint32_t LDRSH_dnm(uint16_t i) {
+  return 0xe19000f0 | ((i & 0x0038) << 13) | ((i & 0x0007) << 12) | ((i & 0x01c0) >> 6);
+}
+
+uint32_t STR_immed5(uint16_t i) {
+  return 0xe5800000 | ((i & 0x0038) << 13) | ((i & 0x0007) << 12) | ((i & 0x07c0) >> 4);
+}
+
+uint32_t LDR_immed5(uint16_t i) {
+  return 0xe5900000 | ((i & 0x0038) << 13) | ((i & 0x0007) << 12) | ((i & 0x07c0) >> 4);
+}
+
+uint32_t STRB_immed5(uint16_t i) {
+  return 0xe5c00000 | ((i & 0x0038) << 13) | ((i & 0x0007) << 12) | ((i & 0x07c0) >> 6);
+}
+
+uint32_t LDRB_immed5(uint16_t i) {
+  return 0xe5d00000 | ((i & 0x0038) << 13) | ((i & 0x0007) << 12) | ((i & 0x07c0) >> 6);
+}
+
+uint32_t STRH_immed5(uint16_t i) {
+  return 0xe1c000b0 | ((i & 0x0038) << 13) | ((i & 0x0007) << 12) | ((i & 0x0600) >> 1) | ((i & 0x01c0) >> 5);
+}
+
+uint32_t LDRH_immed5(uint16_t i) {
+  return 0xe1d000b0 | ((i & 0x0038) << 13) | ((i & 0x0007) << 12) | ((i & 0x0600) >> 1) | ((i & 0x01c0) >> 5);
+}
+
+uint32_t STR_sp_immed8(uint16_t i) {
+  return 0xe58d0000 | ((i & 0x0700) << 4) | ((i & 0x00ff) << 2);
+}
+
+uint32_t LDR_sp_immed8(uint16_t i) {
+  return 0xe59d0000 | ((i & 0x0700) << 4) | ((i & 0x00ff) << 2);
+}
+
+uint32_t ADD_pc_immed8(uint16_t i) {
+  return 0xe28f0f00 | ((i & 0x0700) << 4) | (i & 0x00ff);
+}
+
+uint32_t ADD_sp_immed8(uint16_t i) {
+  return 0xe28d0f00 | ((i & 0x0700) << 4) | (i & 0x00ff);
+}
+
+uint32_t ADD_sp_immed7(uint16_t i) {
+  return 0xe28ddf00 | (i & 0x7f);
+}
+
+uint32_t SUB_sp_immed7(uint16_t i) {
+  return 0xe24ddf00 | (i & 0x7f);
+}
+
+uint32_t PUSH(uint16_t i) {
+  return 0xe92d0000 | ((i & 0x0100) << 6) | (i & 0x00ff);
+}
+
+uint32_t POP(uint16_t i) {
+  return 0xe8bd0000 | ((i & 0x0100) << 7) | (i & 0x00ff);
+}
+
+uint32_t STMIA(uint16_t i) {
+  return 0xe8a00000 | ((i & 0x0700) << 8) | (i & 0x00ff);
+}
+
+uint32_t LDMIA(uint16_t i) {
+  uint32_t rn = (i & 0x0700) >> 8;
+  uint32_t writeback = 0x00200000 * (((~i) >> rn) & 1);
+  return 0xe8900000 | writeback | (rn << 16) | (i & 0x00ff);
+}
+
+uint32_t B_cond(uint16_t i) {
+  int32_t immed8 = i;
+  immed8 <<= 24;
+  immed8 >>= 24;
+  return ((i & 0x0f00) << 20) | 0x0a000000 | (immed8 & 0x00ffffff);
+}
+
+uint32_t SWI(uint16_t i) {
+  return 0xef000000 | (i & 0x00ff);
+}
+
+uint32_t B(uint16_t i) {
+  int32_t immed11 = i;
+  immed11 <<= 21;
+  immed11 >>= 21;
+  return 0xea000000 | (immed11 & 0x00ffffff);
+}
+
+uint32_t UNDEF(uint16_t i) {
+  //use an easily-identifiable opcode that is undefined on a wide range of ARM architecture versions
+  return 0xe7ffffff;
+}
