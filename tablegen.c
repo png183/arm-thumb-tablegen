@@ -74,7 +74,7 @@ uint32_t decode(uint16_t i) {
   case 0xc0 ... 0xc7: return STMIA(i);
   case 0xc8 ... 0xcf: return LDMIA(i);
   case 0xd0 ... 0xdd: return B_cond(i);
-//case 0xde         : return UNDEF(i);  //todo: verify that this does not behave as an unconditional branch
+//case 0xde         : return UNDEF(i);
   case 0xdf         : return SWI(i);
   case 0xe0 ... 0xe7: return B(i);
 //case 0xe8 ... 0xef: return UNDEF(i);
