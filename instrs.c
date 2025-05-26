@@ -10,22 +10,6 @@ uint32_t ASR_immed5(uint16_t i) {
   return 0xe1b00040 | ((i & 0x0007) << 12) | ((i & 0x07c0) << 1) | ((i & 0x0038) >> 3);
 }
 
-uint32_t ADD_dnm(uint16_t i) {
-  return 0xe0900000 | ((i & 0x0038) << 13) | ((i & 0x0007) << 12) | ((i & 0x01c0) >> 6);
-}
-
-uint32_t SUB_dnm(uint16_t i) {
-  return 0xe0500000 | ((i & 0x0038) << 13) | ((i & 0x0007) << 12) | ((i & 0x01c0) >> 6);
-}
-
-uint32_t ADD_immed3(uint16_t i) {
-  return 0xe2900000 | ((i & 0x0038) << 13) | ((i & 0x0007) << 12) | ((i & 0x01c0) >> 6);
-}
-
-uint32_t SUB_immed3(uint16_t i) {
-  return 0xe2500000 | ((i & 0x0038) << 13) | ((i & 0x0007) << 12) | ((i & 0x01c0) >> 6);
-}
-
 uint32_t MOV_immed8(uint16_t i) {
   return 0xe3b00000 | ((i & 0x0700) << 4) | (i & 0x00ff);
 }
@@ -44,22 +28,6 @@ uint32_t SUB_immed8(uint16_t i) {
 
 uint32_t LDR_pc_immed8(uint16_t i) {
   return 0xe59f0000 | ((i & 0x0700) << 4) | ((i & 0x00ff) << 2);
-}
-
-uint32_t STR_immed5(uint16_t i) {
-  return 0xe5800000 | ((i & 0x0038) << 13) | ((i & 0x0007) << 12) | ((i & 0x07c0) >> 4);
-}
-
-uint32_t LDR_immed5(uint16_t i) {
-  return 0xe5900000 | ((i & 0x0038) << 13) | ((i & 0x0007) << 12) | ((i & 0x07c0) >> 4);
-}
-
-uint32_t STRB_immed5(uint16_t i) {
-  return 0xe5c00000 | ((i & 0x0038) << 13) | ((i & 0x0007) << 12) | ((i & 0x07c0) >> 6);
-}
-
-uint32_t LDRB_immed5(uint16_t i) {
-  return 0xe5d00000 | ((i & 0x0038) << 13) | ((i & 0x0007) << 12) | ((i & 0x07c0) >> 6);
 }
 
 uint32_t STRH_immed5(uint16_t i) {

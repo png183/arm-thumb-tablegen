@@ -26,7 +26,7 @@ uint32_t MVN(uint16_t i) { return 0xe1f00000 |              (rd << 12) |        
 #undef rd
 #undef rn
 
-#define rm ((i & 0x0078) >> 3)
+#define rm  ((i & 0x0078) >> 3)
 #define rd (((i & 0x0080) >> 4) | (i & 0x0007))
 
 //ALU_HI
@@ -38,20 +38,34 @@ uint32_t     BX(uint16_t i) { return 0xe12fff10 |                           rm; 
 #undef rm
 #undef rd
 
-#define rm ((i & 0x01c0) >> 6)
-#define rn ((i & 0x0038) >> 3)
-#define rd ((i & 0x0007) >> 0)
+#define immed5 ((i & 0x07c0) >> 6)
+#define immed3 ((i & 0x01c0) >> 6)
+#define rm     ((i & 0x01c0) >> 6)
+#define rn     ((i & 0x0038) >> 3)
+#define rd     ((i & 0x0007) >> 0)
 
 //LDRSTR_SHB
-uint32_t   STR_dnm(uint16_t i) { return 0xe7800000 | (rn << 16) | (rd << 12) | rm; }
-uint32_t  STRH_dnm(uint16_t i) { return 0xe18000b0 | (rn << 16) | (rd << 12) | rm; }
-uint32_t  STRB_dnm(uint16_t i) { return 0xe7c00000 | (rn << 16) | (rd << 12) | rm; }
-uint32_t LDRSB_dnm(uint16_t i) { return 0xe19000d0 | (rn << 16) | (rd << 12) | rm; }
-uint32_t   LDR_dnm(uint16_t i) { return 0xe7900000 | (rn << 16) | (rd << 12) | rm; }
-uint32_t  LDRH_dnm(uint16_t i) { return 0xe19000b0 | (rn << 16) | (rd << 12) | rm; }
-uint32_t  LDRB_dnm(uint16_t i) { return 0xe7d00000 | (rn << 16) | (rd << 12) | rm; }
-uint32_t LDRSH_dnm(uint16_t i) { return 0xe19000f0 | (rn << 16) | (rd << 12) | rm; }
+uint32_t     STR_dnm(uint16_t i) { return 0xe7800000 | (rn << 16) | (rd << 12) | rm; }
+uint32_t    STRH_dnm(uint16_t i) { return 0xe18000b0 | (rn << 16) | (rd << 12) | rm; }
+uint32_t    STRB_dnm(uint16_t i) { return 0xe7c00000 | (rn << 16) | (rd << 12) | rm; }
+uint32_t   LDRSB_dnm(uint16_t i) { return 0xe19000d0 | (rn << 16) | (rd << 12) | rm; }
+uint32_t     LDR_dnm(uint16_t i) { return 0xe7900000 | (rn << 16) | (rd << 12) | rm; }
+uint32_t    LDRH_dnm(uint16_t i) { return 0xe19000b0 | (rn << 16) | (rd << 12) | rm; }
+uint32_t    LDRB_dnm(uint16_t i) { return 0xe7d00000 | (rn << 16) | (rd << 12) | rm; }
+uint32_t   LDRSH_dnm(uint16_t i) { return 0xe19000f0 | (rn << 16) | (rd << 12) | rm; }
 
+//top-level decode
+uint32_t     ADD_dnm(uint16_t i) { return 0xe0900000 | (rn << 16) | (rd << 12) | rm; }
+uint32_t     SUB_dnm(uint16_t i) { return 0xe0500000 | (rn << 16) | (rd << 12) | rm; }
+uint32_t  ADD_immed3(uint16_t i) { return 0xe2900000 | (rn << 16) | (rd << 12) | immed3; }
+uint32_t  SUB_immed3(uint16_t i) { return 0xe2500000 | (rn << 16) | (rd << 12) | immed3; }
+uint32_t  STR_immed5(uint16_t i) { return 0xe5800000 | (rn << 16) | (rd << 12) | (immed5 << 2); }
+uint32_t  LDR_immed5(uint16_t i) { return 0xe5900000 | (rn << 16) | (rd << 12) | (immed5 << 2); }
+uint32_t STRB_immed5(uint16_t i) { return 0xe5c00000 | (rn << 16) | (rd << 12) | immed5; }
+uint32_t LDRB_immed5(uint16_t i) { return 0xe5d00000 | (rn << 16) | (rd << 12) | immed5; }
+
+#undef immed5
+#undef immed3
 #undef rm
 #undef rn
 #undef rd
