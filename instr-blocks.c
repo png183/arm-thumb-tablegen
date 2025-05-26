@@ -3,6 +3,7 @@
 #define rd ((i & 0x0007) >> 0)
 #define rn ((i & 0x0007) >> 0)
 
+//ALU
 uint32_t AND(uint16_t i) { return 0xe0100000 | (rd << 16) | (rd << 12) |              rm; }
 uint32_t EOR(uint16_t i) { return 0xe0300000 | (rd << 16) | (rd << 12) |              rm; }
 uint32_t LSL(uint16_t i) { return 0xe1b00010 |              (rd << 12) | (rs <<  8) | rd; }
@@ -24,3 +25,33 @@ uint32_t MVN(uint16_t i) { return 0xe1f00000 |              (rd << 12) |        
 #undef rs
 #undef rd
 #undef rn
+
+#define rm ((i & 0x0078) >> 3)
+#define rd (((i & 0x0080) >> 4) | (i & 0x0007))
+
+//ALU_HI
+uint32_t ADD_hi(uint16_t i) { return 0xe0800000 | (rd << 16) | (rd << 12) | rm; }
+uint32_t CMP_hi(uint16_t i) { return 0xe1500000 | (rd << 16) |              rm; }
+uint32_t MOV_hi(uint16_t i) { return 0xe1a00000 |              (rd << 12) | rm; }
+uint32_t     BX(uint16_t i) { return 0xe12fff10 |                           rm; }
+
+#undef rm
+#undef rd
+
+#define rm ((i & 0x01c0) >> 6)
+#define rn ((i & 0x0038) >> 3)
+#define rd ((i & 0x0007) >> 0)
+
+//LDRSTR_SHB
+uint32_t   STR_dnm(uint16_t i) { return 0xe7800000 | (rn << 16) | (rd << 12) | rm; }
+uint32_t  STRH_dnm(uint16_t i) { return 0xe18000b0 | (rn << 16) | (rd << 12) | rm; }
+uint32_t  STRB_dnm(uint16_t i) { return 0xe7c00000 | (rn << 16) | (rd << 12) | rm; }
+uint32_t LDRSB_dnm(uint16_t i) { return 0xe19000d0 | (rn << 16) | (rd << 12) | rm; }
+uint32_t   LDR_dnm(uint16_t i) { return 0xe7900000 | (rn << 16) | (rd << 12) | rm; }
+uint32_t  LDRH_dnm(uint16_t i) { return 0xe19000b0 | (rn << 16) | (rd << 12) | rm; }
+uint32_t  LDRB_dnm(uint16_t i) { return 0xe7d00000 | (rn << 16) | (rd << 12) | rm; }
+uint32_t LDRSH_dnm(uint16_t i) { return 0xe19000f0 | (rn << 16) | (rd << 12) | rm; }
+
+#undef rm
+#undef rn
+#undef rd
