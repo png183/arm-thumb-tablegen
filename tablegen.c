@@ -1,7 +1,6 @@
 #include <stdint.h>
 #include <stdio.h>
 
-#include "instr-blocks.c"
 #include "instrs.c"
 
 uint32_t decodeALU(uint16_t i) {
