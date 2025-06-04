@@ -70,11 +70,23 @@ uint32_t LDRB_immed5(uint16_t i) { return 0xe5d00000 | (rn << 16) | (rd << 12) |
 #undef rn
 #undef rd
 
-//todo: move shifts into here
+#define immed5 ((i & 0x07c0) >> 6)
+#define rm     ((i & 0x0038) >> 3)
+#define rd      (i & 0x0007)
+
+//top-level decode
+uint32_t LSL_immed5(uint16_t i) { return 0xe1b00000 | (rd << 12) | (immed5 << 7) | rm; }
+uint32_t LSR_immed5(uint16_t i) { return 0xe1b00020 | (rd << 12) | (immed5 << 7) | rm; }
+uint32_t ASR_immed5(uint16_t i) { return 0xe1b00040 | (rd << 12) | (immed5 << 7) | rm; }
+
+#undef immed5
+#undef rm
+#undef rd
 
 #define immed8  (i & 0x00ff)
 #define rd     ((i & 0x0700) >> 8)
 
+//top-level decode
 uint32_t    MOV_immed8(uint16_t i) { return 0xe3b00000 |              (rd << 12) | immed8; }
 uint32_t    CMP_immed8(uint16_t i) { return 0xe3500000 | (rd << 16) |              immed8; }
 uint32_t    ADD_immed8(uint16_t i) { return 0xe2900000 | (rd << 16) | (rd << 12) | immed8; }
@@ -87,3 +99,23 @@ uint32_t ADD_sp_immed8(uint16_t i) { return 0xe28d0f00 |              (rd << 12)
 
 #undef immed8
 #undef rd
+
+#define rlist  (i & 0x00ff)
+#define lr    ((i & 0x0100) >> 8)
+#define pc    ((i & 0x0100) >> 8)
+#define rn    ((i & 0x0700) >> 8)
+#define writeback (((~i) >> rn) & 1)
+
+//MISC
+uint32_t  PUSH(uint16_t i) { return 0xe92d0000 |                                              (lr << 14) | rlist; }
+uint32_t   POP(uint16_t i) { return 0xe8bd0000 |                                  (pc << 15) |             rlist; }
+
+//top-level decode
+uint32_t STMIA(uint16_t i) { return 0xe8a00000 |                     (rn << 16) |                          rlist; }
+uint32_t LDMIA(uint16_t i) { return 0xe8900000 | (writeback << 21) | (rn << 16) |                          rlist; }
+
+#undef rlist
+#undef lr
+#undef pc
+#undef rn
+#undef writeback

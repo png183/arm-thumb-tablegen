@@ -1,15 +1,3 @@
-uint32_t LSL_immed5(uint16_t i) {
-  return 0xe1b00000 | ((i & 0x0007) << 12) | ((i & 0x07c0) << 1) | ((i & 0x0038) >> 3);
-}
-
-uint32_t LSR_immed5(uint16_t i) {
-  return 0xe1b00020 | ((i & 0x0007) << 12) | ((i & 0x07c0) << 1) | ((i & 0x0038) >> 3);
-}
-
-uint32_t ASR_immed5(uint16_t i) {
-  return 0xe1b00040 | ((i & 0x0007) << 12) | ((i & 0x07c0) << 1) | ((i & 0x0038) >> 3);
-}
-
 uint32_t STRH_immed5(uint16_t i) {
   return 0xe1c000b0 | ((i & 0x0038) << 13) | ((i & 0x0007) << 12) | ((i & 0x0600) >> 1) | ((i & 0x01c0) >> 5);
 }
@@ -24,24 +12,6 @@ uint32_t ADD_sp_immed7(uint16_t i) {
 
 uint32_t SUB_sp_immed7(uint16_t i) {
   return 0xe24ddf00 | (i & 0x7f);
-}
-
-uint32_t PUSH(uint16_t i) {
-  return 0xe92d0000 | ((i & 0x0100) << 6) | (i & 0x00ff);
-}
-
-uint32_t POP(uint16_t i) {
-  return 0xe8bd0000 | ((i & 0x0100) << 7) | (i & 0x00ff);
-}
-
-uint32_t STMIA(uint16_t i) {
-  return 0xe8a00000 | ((i & 0x0700) << 8) | (i & 0x00ff);
-}
-
-uint32_t LDMIA(uint16_t i) {
-  uint32_t rn = (i & 0x0700) >> 8;
-  uint32_t writeback = 0x00200000 * (((~i) >> rn) & 1);
-  return 0xe8900000 | writeback | (rn << 16) | (i & 0x00ff);
 }
 
 uint32_t B_cond(uint16_t i) {
