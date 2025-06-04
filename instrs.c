@@ -10,48 +10,12 @@ uint32_t ASR_immed5(uint16_t i) {
   return 0xe1b00040 | ((i & 0x0007) << 12) | ((i & 0x07c0) << 1) | ((i & 0x0038) >> 3);
 }
 
-uint32_t MOV_immed8(uint16_t i) {
-  return 0xe3b00000 | ((i & 0x0700) << 4) | (i & 0x00ff);
-}
-
-uint32_t CMP_immed8(uint16_t i) {
-  return 0xe3500000 | ((i & 0x0700) << 8) | (i & 0x00ff);
-}
-
-uint32_t ADD_immed8(uint16_t i) {
-  return 0xe2900000 | ((i & 0x0700) << 8) | ((i & 0x0700) << 4) | (i & 0x00ff);
-}
-
-uint32_t SUB_immed8(uint16_t i) {
-  return 0xe2500000 | ((i & 0x0700) << 8) | ((i & 0x0700) << 4) | (i & 0x00ff);
-}
-
-uint32_t LDR_pc_immed8(uint16_t i) {
-  return 0xe59f0000 | ((i & 0x0700) << 4) | ((i & 0x00ff) << 2);
-}
-
 uint32_t STRH_immed5(uint16_t i) {
   return 0xe1c000b0 | ((i & 0x0038) << 13) | ((i & 0x0007) << 12) | ((i & 0x0600) >> 1) | ((i & 0x01c0) >> 5);
 }
 
 uint32_t LDRH_immed5(uint16_t i) {
   return 0xe1d000b0 | ((i & 0x0038) << 13) | ((i & 0x0007) << 12) | ((i & 0x0600) >> 1) | ((i & 0x01c0) >> 5);
-}
-
-uint32_t STR_sp_immed8(uint16_t i) {
-  return 0xe58d0000 | ((i & 0x0700) << 4) | ((i & 0x00ff) << 2);
-}
-
-uint32_t LDR_sp_immed8(uint16_t i) {
-  return 0xe59d0000 | ((i & 0x0700) << 4) | ((i & 0x00ff) << 2);
-}
-
-uint32_t ADD_pc_immed8(uint16_t i) {
-  return 0xe28f0f00 | ((i & 0x0700) << 4) | (i & 0x00ff);
-}
-
-uint32_t ADD_sp_immed8(uint16_t i) {
-  return 0xe28d0f00 | ((i & 0x0700) << 4) | (i & 0x00ff);
 }
 
 uint32_t ADD_sp_immed7(uint16_t i) {

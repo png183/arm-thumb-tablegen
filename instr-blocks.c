@@ -69,3 +69,21 @@ uint32_t LDRB_immed5(uint16_t i) { return 0xe5d00000 | (rn << 16) | (rd << 12) |
 #undef rm
 #undef rn
 #undef rd
+
+//todo: move shifts into here
+
+#define immed8  (i & 0x00ff)
+#define rd     ((i & 0x0700) >> 8)
+
+uint32_t    MOV_immed8(uint16_t i) { return 0xe3b00000 |              (rd << 12) | immed8; }
+uint32_t    CMP_immed8(uint16_t i) { return 0xe3500000 | (rd << 16) |              immed8; }
+uint32_t    ADD_immed8(uint16_t i) { return 0xe2900000 | (rd << 16) | (rd << 12) | immed8; }
+uint32_t    SUB_immed8(uint16_t i) { return 0xe2500000 | (rd << 16) | (rd << 12) | immed8; }
+uint32_t LDR_pc_immed8(uint16_t i) { return 0xe59f0000 |              (rd << 12) | (immed8 << 2); }
+uint32_t STR_sp_immed8(uint16_t i) { return 0xe58d0000 |              (rd << 12) | (immed8 << 2); }
+uint32_t LDR_sp_immed8(uint16_t i) { return 0xe59d0000 |              (rd << 12) | (immed8 << 2); }
+uint32_t ADD_pc_immed8(uint16_t i) { return 0xe28f0f00 |              (rd << 12) | immed8; }
+uint32_t ADD_sp_immed8(uint16_t i) { return 0xe28d0f00 |              (rd << 12) | immed8; }
+
+#undef immed8
+#undef rd
